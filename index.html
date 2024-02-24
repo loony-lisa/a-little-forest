@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Our Memories</title>
+        <style>
+            body { margin: 0; }
+        </style>
+    </head>
+    <body>
+        <script id="vertexShader" type="x-shader/x-vertex">
+
+          precision mediump float;
+          precision mediump int;
+    
+          //uniform mat4 modelViewMatrix; // optional
+          //uniform mat4 projectionMatrix; // optional
+    
+          //attribute vec3 position;
+          attribute vec4 color;
+          attribute float size;
+    
+          varying vec3 vPosition;
+          varying vec4 vColor;
+    
+          void main()	{
+    
+            vPosition = position;
+            vColor = color;
+    
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+            gl_PointSize = size;
+    
+          }
+    
+        </script>
+        <script id="fragmentShader" type="x-shader/x-fragment">
+
+          precision mediump float;
+          precision mediump int;
+    
+          uniform float time;
+    
+          varying vec3 vPosition;
+          varying vec4 vColor;
+    
+          void main()	{
+    
+            vec4 color = vec4( vColor );
+            color.r = (cos( vPosition.x * 10.0 ) + 1.0) * 0.4;
+            color.g = 0.7;
+            color.b = (sin( vPosition.y * 10.0 ) + 1.0) * 0.2;
+            color.a = 1.0;
+    
+            gl_FragColor = color;
+    
+          }
+    
+        </script>
+        <script type="module" src="./src/main.js"></script>
+    </body>
+    
+</html>
